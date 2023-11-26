@@ -26,12 +26,14 @@ Now that we've configured our client, let's try it out in any other file
 import { auth, client } from './payload.js'
 
 (async () => {
-	// do a login, cookie will be stored and passed automatically by the client
-	await auth.login('email', 'password');
-	
-	// query some users
-	const { docs } = await client.service('users').find({ where: { email: { equals: 'myemail' } } });
-	console.log(docs);
+	await auth.login('EMAIL', 'PASSWORD'); // you can catch errors here if you want, or just let it crash
+	console.log('AUTHENTICATED:', auth.isAuthenticated()); // should return true
+	console.log('USER', auth.getUser()); // should return your user object
+	await client.service('users').find(); // should return all users (depending on api permissions)
+	await auth.logout(); // you can catch errors here too
+	console.log('AUTHENTICATED:', auth.isAuthenticated()); // should return false
+	console.log('USER', auth.getUser()); // should return false
+	await client.service('users').find(); // should return empty results (depending on api permissions)
 });
 ```
 
