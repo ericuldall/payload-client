@@ -1,6 +1,6 @@
 {
   "name": "payload-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Basic js client to easily interact with the Payload CMS Rest API",
   "main": "lib/index.js",
   "type": "module",
