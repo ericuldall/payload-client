@@ -17,5 +17,16 @@
   },
   "dependencies": {
     "qs": "^6.11.2"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericuldall/payload-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ericuldall/payload-client/issues"
+  },
+  "homepage": "https://github.com/ericuldall/payload-client#readme"
 }
