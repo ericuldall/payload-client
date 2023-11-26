@@ -2,12 +2,15 @@ import qs from 'qs';
 
 type Service = {
 	find: (options: any) => Promise<any>,
-	get: (id: string, options: any) => Promise<any>
+	get: (id: string, options: any) => Promise<any>,
+	create: (data: any, options: any) => Promise<any>,
+	update: (id: string, data: any, options: any) => Promise<any>,
+	delete: (id: string, options: any) => Promise<any>
 }
 
 interface Client {
 	apiURL: string,
-	fetch: (endpoint: string, options: any) => Promise<Response>,
+	fetch: (endpoint: string, options?: any) => Promise<Response>,
 	service: (endpoint: string) => Service 
 } 
 
@@ -18,7 +21,7 @@ class PayloadClient implements Client {
 		this.apiURL = apiURL;
 	}
 
-	fetch (endpoint: string, options: any) {
+	fetch (endpoint: string, options: any = {}) {
 		const where = options?.where;
 		delete options?.where;
 		const query = where ? `?${qs.stringify({ where })}` : '';
