@@ -51,7 +51,7 @@ class PayloadAuth implements Auth {
 		const token = localStorage.getItem(this.options.tokenCookie);
 		if (token) {
 			const { exp } = JSON.parse(token);
-			return (exp * 1000)  < Date.now();
+			return (exp * 1000) > Date.now();
 		}
 
 		return false;
