@@ -58,4 +58,12 @@ delete (id, options);
 }
 ```
 
+## Auth Utilities
+```
+async login(username, password) => Promise<void>
+async logout() => Promise<void>
+isAuthenticated() => boolean
+getUser() => Object | boolean
+```
+
 ### That's all it does for now, will update as it evolves
