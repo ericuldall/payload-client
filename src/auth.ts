@@ -38,7 +38,7 @@ class PayloadAuth implements Auth {
 				email,
 				password
 			}),
-		}).then(r => r.json());
+		});
 		localStorage.setItem(this.options.tokenCookie, JSON.stringify({ user, exp }));
 	}
 

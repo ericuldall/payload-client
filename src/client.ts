@@ -1,21 +1,26 @@
 import qs from 'qs';
 
+type OptionsMethod = (options?: any) => Promise<any>
+type IdAndOptionsMethod = (id: string, options?: any) => Promise<any>
+type DataAndOptionsMethod = (data: any, options?: any) => Promise<any>
+type IdDataAndOptionsMethod = (id: string, data: string, options?: any) => Promise<any>
+
 type Service = {
-	find: (options: any) => Promise<any>,
-	get: (id: string, options: any) => Promise<any>,
-	create: (data: any, options: any) => Promise<any>,
-	update: (id: string, data: any, options: any) => Promise<any>,
-	delete: (id: string, options: any) => Promise<any>
+	find: OptionsMethod,
+	get: IdAndOptionsMethod,
+	create: DataAndOptionsMethod,
+	update: IdDataAndOptionsMethod,
+	delete: IdAndOptionsMethod
 }
 
 interface Client {
 	apiURL: string,
-	fetch: (endpoint: string, options?: any) => Promise<Response>,
+	fetch: (endpoint: string, options?: any) => Promise<any>,
 	service: (endpoint: string) => Service 
 } 
 
 class PayloadClient implements Client {
-	apiURL
+	apiURL: string
 
 	constructor (apiURL: string) {
 		this.apiURL = apiURL;
@@ -25,18 +30,23 @@ class PayloadClient implements Client {
 		const where = options?.where;
 		delete options?.where;
 		const query = where ? `?${qs.stringify({ where })}` : '';
-		return fetch(`${this.apiURL}/api/${endpoint}${query}`, {
+		const fetchOptions = {
 			credentials: "include",
+			method: "GET",
 			headers: {
 			  "Content-Type": "application/json",
 			},
 			...options
-		});
+		};
+		return fetch(
+			`${this.apiURL}/api/${endpoint}${query}`,
+			fetchOptions
+		).then(r => r.json());
 	}
 
 	service (endpoint: string) {
 		return {
-			find: (options: any) => {
+			find: (options?: any) => {
 				return this.fetch(endpoint, options);
 			},
 			get: (id: string, options: any) => {

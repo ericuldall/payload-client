@@ -23,6 +23,15 @@ const login = () => {
 	return auth.login('foo', 'bar');
 }
 
+const logout = () => {
+	fetchMock.mockResponseOnce(
+		JSON.stringify({
+			"message": "You have been logged out successfully."
+		})
+	);
+	return auth.logout();
+}
+
 beforeAll(() => {
 	client = createClient('http://test');
 	auth = useAuth(client);
@@ -43,12 +52,7 @@ describe('auth module', () => {
 	});
 
 	test('test successful logout', async () => {
-		fetchMock.mockResponseOnce(
-			JSON.stringify({
-				"message": "You have been logged out successfully."
-			})
-		);
-		await auth.logout();
+		await logout();
 		expect(localStorage.removeItem)
 			.toHaveBeenLastCalledWith(auth.options.tokenCookie);
 	});
@@ -78,7 +82,7 @@ describe('auth module', () => {
 			});
 
 			afterAll(async () => {
-				await auth.logout();
+				await logout();
 			});
 		});
 	});
