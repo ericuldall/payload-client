@@ -69,3 +69,5 @@ class PayloadAuth implements Auth {
 }
 
 export const useAuth = (client: Client) => new PayloadAuth(client);
+
+export { Auth }
