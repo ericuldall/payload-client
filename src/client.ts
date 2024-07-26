@@ -29,7 +29,7 @@ class PayloadClient implements Client {
 	fetch (endpoint: string, options: any = {}) {
 		const where = options?.where;
 		delete options?.where;
-		const query = where ? `?${qs.stringify({ where })}` : '';
+		const query = where ? qs.stringify({ where }, { addQueryPrefix: true }) : '';
 		const fetchOptions = {
 			credentials: "include",
 			method: "GET",
